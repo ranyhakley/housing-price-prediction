@@ -1,26 +1,27 @@
 import './globals.css';
-import { ReactNode } from 'react';
+import Providers from './providers.js'; // Import the Providers component
+import ThemeSwitcher from './components/ThemeSwitcher.js'; // Import ThemeSwitcher
 
-// Define metadata for the layout
 export const metadata = {
   title: 'Next.js App',
   description: 'A simple Next.js interface with dark mode and a header',
 };
 
-//Server Component - no "use client" directive
-export default function RootLayout({ children }: { children: ReactNode }) {
-  // You can use server-side data fetching here if needed
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <header style={{ paddingTop : '20px', background: '#0070f3', color: 'white', display: 'flex', justifyContent: 'space-between' }}>
-          <nav>
-            <a href="/" style={{ margin: '0 15px', color: 'white', textDecoration: 'none' }}>Home</a>
-            <a href="/pageForm" style={{ margin: '0 15px', color: 'white', textDecoration: 'none' }}>Form</a>
-            <a href="/pageAboutUs" style={{ margin: '0 15px', color: 'white', textDecoration: 'none' }}>About Us</a>
-          </nav>
-        </header>
-        <main>{children}</main>
+        <Providers> {/* Wrap the app in Providers */}
+          <header style={{ padding: '20px', background: '#0070f3', color: 'white', display: 'flex', justifyContent: 'space-between' }}>
+            <nav>
+              <a href="/" style={{ margin: '0 15px', color: 'white', textDecoration: 'none' }}>Home</a>
+              <a href="/pageForm" style={{ margin: '0 15px', color: 'white', textDecoration: 'none' }}>Form</a>
+              <a href="/pageAboutUs" style={{ margin: '0 15px', color: 'white', textDecoration: 'none' }}>Charts</a>
+            </nav>
+            <ThemeSwitcher /> {/* Use the Client Component for theme toggling */}
+          </header>
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );

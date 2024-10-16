@@ -1,11 +1,17 @@
-html.light {
-  background-color: #c7c7c7;
-  color: #333;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light Mode */
+body {
+  color: #000;
+  background-color: #fff;
 }
 
-html.dark {
-  background-color: #333;
-  color: #c7c7c7;
+/* Dark Mode */
+.dark body {
+  background-color: #000;
+  color: #fff;
 }
 
 header {
@@ -17,7 +23,7 @@ header {
 }
 
 header nav a {
-  margin: 0 15px;
+  margin: 10px;
   color: white;
   text-decoration: none;
 }
