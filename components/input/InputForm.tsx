@@ -1,10 +1,11 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
-import InputField from '../components/input/InputField';
-import SliderMap from '../components/input/SliderMap';
-import PropertyTypeSelector from '../components/input/PropertyTypeSelector';
-import ErrorMessage from '../components/input/ErrorMessage';
+import InputField from './InputField';
+import SliderMap from './SliderMap';
+import PropertyTypeSelector from './PropertyTypeSelector';
+import ErrorMessage from './ErrorMessage';
+import { ValidateForm } from '@/utils/utils';
 
 // Props interface for the component
 interface InputFormProps {
@@ -32,7 +33,7 @@ interface Prediction {
 }
 
 // Main form component for house prediction
-export default function HouseForm({ onPrediction }: InputFormProps) {
+export default function InputForm({ onPrediction }: InputFormProps) {
   // State to manage form data
   const [formData, setFormData] = useState<FormData>({
     KMfromCBD: 0,
@@ -80,49 +81,12 @@ export default function HouseForm({ onPrediction }: InputFormProps) {
     });
   };
 
-  // Function to validate form inputs
-  const validateForm = () => {
-    // Check if the postcode is exactly 4 digits
-    if (!/^\d{4}$/.test(formData.Postcode)) return "Postcode must be exactly 4 digits.";
-
-    // Check if Bedroom is a non-negative integer
-    if (!/^\d+$/.test(formData.Bedroom) || parseInt(formData.Bedroom) < 0) {
-      return "Bedroom must be a non-negative integer.";
-    }
-
-    // Check if Bathroom is a non-negative integer
-    if (!/^\d+$/.test(formData.Bathroom) || parseInt(formData.Bathroom) < 0) {
-      return "Bathroom must be a non-negative integer.";
-    }
-
-    // Check if YearBuilt is a valid 4-digit year
-    if (!/^\d{4}$/.test(formData.YearBuilt)) return "Year Built must be a 4-digit year.";
-
-    // Check if YearSold is a valid 4-digit year
-    if (!/^\d{4}$/.test(formData.YearSold)) return "Year Sold must be a 4-digit year.";
-
-    // Ensure that YearSold is not earlier than YearBuilt
-    if (parseInt(formData.YearSold) < parseInt(formData.YearBuilt)) {
-      return "Year Sold cannot be earlier than Year Built.";
-    }
-
-    // Check if a property type has been selected
-    if (selectedType === '') return "Please select a property type.";
-
-    // Check if TotalRooms is a non-negative integer
-    if (!/^\d+$/.test(formData.TotalRooms) || parseInt(formData.TotalRooms) < 0) {
-      return "Total Rooms must be a non-negative integer.";
-    }
-
-    return null;  // Return null if all validations pass
-  };
-
   // Function to handle form submission and make a prediction request
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();  // Prevent the default form submission behavior
 
     // Validate the form inputs
-    const validationError = validateForm();
+    const validationError = ValidateForm(formData, selectedType);
     if (validationError) {
       setError(validationError);  // Set the error message if validation fails
       return;
@@ -220,7 +184,7 @@ export default function HouseForm({ onPrediction }: InputFormProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-blue-600 p-3 text-white font-semibold hover:bg-blue-700 disabled:opacity-50"
+            className="mt-6 px-8 py-3 text-md font-semibold text-[#005a70] border-[#005a70] bg-white rounded-full hover:bg-[#003e4e] transition-colors"
           >
             {loading ? 'Predicting...' : 'Get Prediction'}
           </button>

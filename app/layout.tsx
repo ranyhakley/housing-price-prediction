@@ -1,6 +1,13 @@
+
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import SmoothScrolling from "@/components/SmoothScrolling";
+import PageTransition from "@/components/PageTransition"; // Import the PageTransition component
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,10 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className="flex flex-col min-h-screen font-inter text-[#121212]">
+        <Header></Header>
+        <PageTransition><SmoothScrolling>{children}</SmoothScrolling></PageTransition>
+        <Footer/>
       </body>
     </html>
   );
