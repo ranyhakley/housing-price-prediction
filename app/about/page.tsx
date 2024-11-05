@@ -70,8 +70,7 @@ const AboutPage: React.FC = () => {
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <h3 className="text-2xl font-bold text-[#005a70] mb-2">Rany Hakley Hong</h3>
                             <p className="text-sm text-[#121212]">
-                                John is a passionate developer with expertise in Next.js and FastAPI. He loves
-                                building scalable and efficient web applications.
+                                Description
                             </p>
                             <img></img>
                         </div>
@@ -80,8 +79,7 @@ const AboutPage: React.FC = () => {
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <h3 className="text-2xl font-bold text-[#005a70] mb-2">Ethan Hair</h3>
                             <p className="text-sm text-[#121212]">
-                                Jane is responsible for designing and training the AI models using Scikit-Learn.
-                                Her expertise in data science and machine learning drives our accurate predictions.
+                                Description
                             </p>
                             <img></img>
                         </div>
@@ -90,8 +88,7 @@ const AboutPage: React.FC = () => {
                         <div className="bg-white p-6 rounded-lg shadow-md">
                             <h3 className="text-2xl font-bold text-[#005a70] mb-2">Harry Catlin</h3>
                             <p className="text-sm text-[#121212]">
-                                Michael ensures our platform is intuitive and user-friendly. His designs are
-                                focused on providing the best user experience possible.
+                                Description
                             </p>
                             <img></img>
                         </div>
