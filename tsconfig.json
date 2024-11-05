@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/ScatterPlot.jsx", "components/LineChart.jsx", "components/BarChart.jsx", "components/FilterableBarChart.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/ScatterPlot.jsx", "components/LineChart.jsx", "components/BarChart.jsx", "components/FilterableBarChart.jsx", "components/visualization/BarChart.jsx"],
   "exclude": ["node_modules"]
 }

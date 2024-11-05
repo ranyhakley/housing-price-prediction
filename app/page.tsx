@@ -1,64 +1,49 @@
-"use client"
+"use client";  // Enables client-side rendering in a Next.js app
 import { useState } from 'react';
-import InputForm from '../components/InputForm';  // Form component
-import ScatterPlot from '../components/ScatterPlot';  // Scatter plot component
-import LineChart from '../components/LineChart';  // Line chart component
-import FilterableBarChart from '../components/FilterableBarChart';  // Filterable bar chart
+import InputForm from '../components/InputForm';  // Component for capturing user input and triggering predictions
+import VisualizationDashboard from '../components/VisualizationDashboard';
+import KMSliderWithMap from '../components/input/SliderMap';
 
+
+// Charts are taking a minute to load, need to be faster
+
+
+// Interface to define the structure of a prediction object
 interface Prediction {
-  predicted_price: number;
-  price_trend: string;
+  predicted_price: number;  // The predicted house price from the AI model
+  price_trend: string;  // The predicted trend (e.g., "rise", "lower", "exponential rise")
 }
 
 const Home = () => {
-  const [isPredictionMade, setIsPredictionMade] = useState(false);  // New state to track if the prediction has been made
+  // State to track if a prediction has been made; used to control the visibility of visualizations
+  const [isPredictionMade, setIsPredictionMade] = useState(false);
+
+  // Array to store multiple prediction results
   const [predictions, setPredictions] = useState<Prediction[]>([]);
-  const [actualPrices, setActualPrices] = useState<number[]>([900000, 1100000, 1050000]);
-  const [predictedPrices, setPredictedPrices] = useState<number[]>([920000, 1150000, 1020000]);
-  const [years, setYears] = useState<number[]>([2010, 2015, 2020]);
 
+
+  // Function to handle predictions made from the InputForm component
   const handlePrediction = (data: Prediction) => {
-    // Set the prediction state and display charts
+    // Add the new prediction to the existing list of predictions
     setPredictions([...predictions, data]);
-    setIsPredictionMade(true);  // Set to true once the prediction is made
 
-    // Update actual and predicted prices (replace this with real logic)
-    setActualPrices([...actualPrices, data.predicted_price]);
-    setPredictedPrices([...predictedPrices, data.predicted_price]);
-
-    // You can update other datasets (e.g., trend data or years) based on your use case
+    // Set the flag to true to indicate that a prediction has been made, triggering the display of visualizations
+    setIsPredictionMade(true);
   };
 
   return (
     <div className="container mx-auto p-4">
+      {/* Main title of the web application */}
       <h1 className="text-2xl font-bold mb-4">House Price Prediction and Visualization</h1>
 
-      {/* House prediction form */}
+      {/* Form component for inputting house features and receiving predictions */}
       <InputForm onPrediction={handlePrediction} />
 
-      {/* Show visualizations only after prediction */}
+      {/* Conditional rendering: Only show visualizations if a prediction has been made */}
       {isPredictionMade && (
-        <div className="mt-8 space-y-8">
-          {/* Use a grid layout to space the charts */}
-          <div className="gap-8">
-            {/* Scatter Plot: Actual vs Predicted Prices */}
-            <div className="bg-white p-6 rounded shadow">
-              <ScatterPlot
-                actualPrices={actualPrices}
-                predictedPrices={predictedPrices}
-                labels={years}  // Example label: could be house IDs or years
-              />
-            </div>
-
-            {/* Filterable Bar Chart: Price Trend Distribution by Postcode */}
-            <div className="bg-white p-6 rounded shadow">
-              <FilterableBarChart />
-            </div>
-
-            {/* Line Chart: House Prices Over Time */}
-            <div className="bg-white p-6 rounded shadow">
-              <LineChart years={years} prices={actualPrices} />
-            </div>
+        <div className="mt-8 space-y-8">  {/* Adds top margin and vertical spacing between charts */}
+          <div className="gap-8">  {/* Container to manage spacing between charts */}
+            <VisualizationDashboard csvPath="final_processed_data.csv"/>
           </div>
         </div>
       )}
