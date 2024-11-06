@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         {/* Contact Information */}
         <div className="mb-6 md:mb-0 text-center md:text-left">
           <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
-          <p className="text-sm">Email: contact@mywebsite.com</p>
+          <p className="text-sm">Email: housingbubble@gmail.com</p>
           <p className="text-sm">Phone: +123 456 7890</p>
           <p className="text-sm">Address: 123 Street, City, Country</p>
         </div>
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
       {/* Bottom Section */}
       <div className="mt-8 text-center border-t border-gray-500 pt-4">
         <p className="text-sm">
-          © {new Date().getFullYear()} MyWebsite. All rights reserved.
+          © {new Date().getFullYear()} HousingBubbles. All rights reserved.
         </p>
       </div>
     </footer>

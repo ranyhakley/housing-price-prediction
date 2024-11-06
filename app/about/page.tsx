@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation"; // Use the App Router's useRouter
 import { FaArrowLeft } from "react-icons/fa"; // Import an arrow icon from react-icons
-
+import Image from "next/image"; // Import Next.js Image component
 
 const AboutPage: React.FC = () => {
     const router = useRouter(); // Use the correct useRouter from next/navigation
@@ -11,10 +11,7 @@ const AboutPage: React.FC = () => {
     return (
         <>
             <div className="container mx-auto mt-8 p-8 flex flex-col min-h-[93vh]">
-                <div
-                    className="flex items-center mb-4 mt-8 cursor-pointer"
-                    onClick={() => router.back()}
-                >
+                <div className="flex items-center mb-4 mt-8 cursor-pointer" onClick={() => router.back()}>
                     <FaArrowLeft className="text-[#005a70] mr-2" size={20} />
                     <span className="text-[#005a70] font-medium">Go Back</span>
                 </div>
@@ -67,30 +64,48 @@ const AboutPage: React.FC = () => {
                     <h2 className="text-3xl font-semibold mb-4 text-[#005a70]">Meet the Team</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {/* Team Member 1 */}
-                        <div className="bg-white p-6 rounded-lg shadow-md">
+                        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+                            <Image
+                                src="/rany-hakley.png"
+                                alt="Rany Hakley Hong"
+                                width={150}
+                                height={150}
+                                className="rounded-full mb-4"
+                            />
                             <h3 className="text-2xl font-bold text-[#005a70] mb-2">Rany Hakley Hong</h3>
-                            <p className="text-sm text-[#121212]">
+                            <p className="text-sm text-[#121212] text-center">
                                 Description
                             </p>
-                            <img></img>
                         </div>
 
                         {/* Team Member 2 */}
-                        <div className="bg-white p-6 rounded-lg shadow-md">
+                        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+                            <Image
+                                src="/ethan-hair.png"
+                                alt="Ethan Hair"
+                                width={150}
+                                height={150}
+                                className="rounded-full mb-4"
+                            />
                             <h3 className="text-2xl font-bold text-[#005a70] mb-2">Ethan Hair</h3>
-                            <p className="text-sm text-[#121212]">
+                            <p className="text-sm text-[#121212] text-center">
                                 Description
                             </p>
-                            <img></img>
                         </div>
 
                         {/* Team Member 3 */}
-                        <div className="bg-white p-6 rounded-lg shadow-md">
+                        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+                            <Image
+                                src="/harry-catlin.png"
+                                alt="Harry Catlin"
+                                width={150}
+                                height={150}
+                                className="rounded-full mb-4"
+                            />
                             <h3 className="text-2xl font-bold text-[#005a70] mb-2">Harry Catlin</h3>
-                            <p className="text-sm text-[#121212]">
+                            <p className="text-sm text-[#121212] text-center">
                                 Description
                             </p>
-                            <img></img>
                         </div>
                     </div>
                 </section>

@@ -21,7 +21,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/ScatterPlot.jsx", "components/LineChart.jsx", "components/BarChart.jsx", "components/FilterableBarChart.jsx", "components/visualization/BarChart.jsx", "app/page.tsx", "hooks/useLenis.ts", "components/SmoothScrolling.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/ScatterPlot.jsx", "components/LineChart.jsx", "components/BarChart.jsx", "components/FilterableBarChart.jsx", "components/visualization/BarChart.jsx", "app/page.tsx", "hooks/useLenis.ts", "components/SmoothScrolling.jsx", "app/product/page.jsx"],
   "exclude": ["node_modules"]
 }
 

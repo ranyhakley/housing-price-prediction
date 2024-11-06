@@ -1,8 +1,7 @@
-// LineChart.js
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 
-const LineChart = ({ data, selectedPostcode }) => { // Add selectedPostcode prop
+const LineChart = ({ data, selectedPostcode }) => {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const LineChart = ({ data, selectedPostcode }) => { // Add selectedPostcode prop
         .attr("y", height / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
-        .text("No information available for the selected postcode:", selectedPostcode);
+        .text(`No information available for the selected postcode: ${selectedPostcode}`);
       return;
     }
 
@@ -50,17 +49,15 @@ const LineChart = ({ data, selectedPostcode }) => { // Add selectedPostcode prop
       .range([height - margin.bottom, margin.top]);
 
     // Create and append axes
-    const xAxis = d3.axisBottom(xScale).tickFormat(d3.timeFormat("%Y"));
-    const yAxis = d3.axisLeft(yScale).tickFormat(d => `${d.toFixed(1)}%`);
-
-    svg.append("g")
+    const xAxisGroup = svg.append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(xAxis);
+      .call(d3.axisBottom(xScale).tickFormat(d3.timeFormat("%Y")));
 
-    svg.append("g")
+    const yAxisGroup = svg.append("g")
       .attr("transform", `translate(${margin.left},0)`)
-      .call(yAxis)
-      .append("text")
+      .call(d3.axisLeft(yScale).tickFormat(d => `${d.toFixed(1)}%`));
+
+    yAxisGroup.append("text")
       .attr("x", -height / 2)
       .attr("y", -50)
       .attr("fill", "black")
@@ -76,16 +73,27 @@ const LineChart = ({ data, selectedPostcode }) => { // Add selectedPostcode prop
       .curve(d3.curveMonotoneX);
 
     // Append the line for the selected postcode
-    svg.append("path")
+    const linePath = svg.append("path")
       .datum(postcodeData)
       .attr("fill", "none")
-      .attr("stroke", "steelblue") // Color for the selected postcode
+      .attr("stroke", "green")
       .attr("stroke-width", 2)
-      .attr("d", line)
-      .attr("class", "line");
+      .attr("d", line);
+
+    // Create a single tooltip element for the entire chart
+    const tooltip = d3.select("body").append("div")
+      .attr("id", "tooltip")
+      .style("position", "absolute")
+      .style("opacity", 0)
+      .style("background-color", "white")
+      .style("border", "1px solid lightgray")
+      .style("padding", "5px")
+      .style("border-radius", "5px")
+      .style("pointer-events", "none")
+      .style("color", "black");
 
     // Add circles for interactivity
-    svg.selectAll(".circle-point")
+    const circles = svg.selectAll(".circle-point")
       .data(postcodeData)
       .enter()
       .append("circle")
@@ -93,20 +101,12 @@ const LineChart = ({ data, selectedPostcode }) => { // Add selectedPostcode prop
       .attr("cx", d => xScale(d.year))
       .attr("cy", d => yScale(d.fluctuation))
       .attr("r", 5)
-      .attr("fill", "steelblue")
+      .attr("fill", "brown")
       .on("mouseover", (event, d) => {
-        d3.select("body").append("div")
-          .attr("id", "tooltip")
-          .style("position", "absolute")
-          .style("opacity", 1)
-          .style("background-color", "white")
-          .style("border", "1px solid lightgray")
-          .style("padding", "5px")
-          .style("border-radius", "5px")
-          .style("pointer-events", "none")
-          .style("color", "black")
+        tooltip
           .style("left", `${event.pageX + 10}px`)
           .style("top", `${event.pageY + 10}px`)
+          .style("opacity", 1)
           .html(`
             <strong>Postcode:</strong> ${selectedPostcode}<br>
             <strong>Year:</strong> ${d.year.getFullYear()}<br>
@@ -114,13 +114,45 @@ const LineChart = ({ data, selectedPostcode }) => { // Add selectedPostcode prop
           `);
       })
       .on("mousemove", (event) => {
-        d3.select("#tooltip")
+        tooltip
           .style("left", `${event.pageX + 10}px`)
           .style("top", `${event.pageY + 10}px`);
       })
       .on("mouseout", () => {
-        d3.select("#tooltip").remove();
+        tooltip.style("opacity", 0);
       });
+
+    // Function to update chart elements on zoom
+    function updateChart(event) {
+      // Retrieve the new transformation
+      const newXScale = event.transform.rescaleX(xScale);
+      const newYScale = event.transform.rescaleY(yScale);
+
+      // Update the axes with the new scales
+      xAxisGroup.call(d3.axisBottom(newXScale).tickFormat(d3.timeFormat("%Y")));
+      yAxisGroup.call(d3.axisLeft(newYScale).tickFormat(d => `${d.toFixed(1)}%`));
+
+      // Update the line and circles with the new scales
+      linePath.attr("d", d3.line()
+        .x(d => newXScale(d.year))
+        .y(d => newYScale(d.fluctuation))
+        .curve(d3.curveMonotoneX)
+      );
+
+      circles
+        .attr("cx", d => newXScale(d.year))
+        .attr("cy", d => newYScale(d.fluctuation));
+    }
+
+    // Set up zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([0.5, 5])
+      .translateExtent([[0, 0], [width, height]])
+      .extent([[0, 0], [width, height]])
+      .on("zoom", updateChart);
+
+    // Apply zoom behavior to the SVG
+    svg.call(zoom);
 
   }, [data, selectedPostcode]);
 

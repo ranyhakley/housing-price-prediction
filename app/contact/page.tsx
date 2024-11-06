@@ -10,35 +10,25 @@ import { useRef } from "react";
 const ContactPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter(); // Use the correct useRouter from next/navigation
-  
+
   return (
     <>
       <div className="flex flex-col min-h-[93vh]"> {/* Use flexbox and min-h-screen */}
         {/* Main Content */}
         <main className="flex-grow container mx-auto p-4 mt-8"> {/* flex-grow to fill space */}
           {/* "Go Back" Navigation */}
-          <div
-            className="flex items-center mb-4 mt-8 cursor-pointer"
-            onClick={() => router.back()}
-          >
+          <div className="flex items-center mb-4 mt-8 cursor-pointer" onClick={() => router.back()}>
             <FaArrowLeft className="text-[#005a70] mr-2" size={20} />
             <span className="text-[#005a70] font-medium">Go Back</span>
           </div>
 
           {/* Contact Form Section */}
-          <section
-            id="contact"
-            className="max-w-3xl mx-auto mb-16 md:mb-24 lg:mb-36 px-6 py-8 bg-white rounded-lg shadow-lg mt-10"
-          >
-            {/* Header */}
+          <section id="contact" className="max-w-3xl mx-auto mb-16 md:mb-24 lg:mb-36 px-6 py-8 bg-white rounded-lg shadow-lg mt-10">
             <div className="mb-6">
               <h2 className="text-2xl font-bold text-[#005a70]">Contact Us</h2>
               <p className="text-neutral-500 mt-2">
                 Feel free to reach out directly at{" "}
-                <a
-                  href="mailto:ranyhakleyh@gmail.com"
-                  className="underline text-[#005a70] hover:text-[#003e4e] transition-colors"
-                >
+                <a href="mailto:ranyhakleyh@gmail.com" className="underline text-[#005a70] hover:text-[#003e4e] transition-colors">
                   ranyhakleyh@gmail.com
                 </a>{" "}
                 or use the form below.
@@ -46,12 +36,8 @@ const ContactPage = () => {
             </div>
 
             {/* Contact Form */}
-            <form
-              ref={formRef}
-              className="flex flex-col space-y-6"
-              action={async (formData) => {
+            <form ref={formRef} className="flex flex-col space-y-6" action={async (formData) => {
                 const { error } = await sendEmail(formData);
-
                 if (error) {
                   toast.error(error);
                   return;

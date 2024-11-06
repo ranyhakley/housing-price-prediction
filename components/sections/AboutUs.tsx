@@ -42,16 +42,11 @@ const AboutUs: React.FC = () => {
         </motion.div>
 
         {/* Image Section */}
-        <div className="md:w-1/2 flex space-x-4 mt-8 md:mt-0">
+        <div className="flex space-x-4 mt-8 md:mt-0">
           <motion.img
-            src="/path/to/your/image1.jpg"
+            src="/teamwork.png"
             alt="Team working together"
-            className="w-1/2 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300"
-          />
-          <motion.img
-            src="/path/to/your/image2.jpg"
-            alt="Community event"
-            className="w-1/2 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300"
+            className="w-3/4 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300"
           />
         </div>
       </div>

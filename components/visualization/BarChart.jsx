@@ -1,9 +1,9 @@
-// BarChart.js
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 
 const BarChart = ({ data }) => {
   const svgRef = useRef();
+  const [selectedType, setSelectedType] = useState("All"); // Default to 'All'
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
@@ -14,21 +14,23 @@ const BarChart = ({ data }) => {
     const height = 600;
     const margin = { top: 50, right: 50, bottom: 100, left: 80 };
 
-    // Filter out data points with 6.5 Total Rooms
-    const filteredData = data.filter(d => d.TotalRooms !== 6.5);
+    // Filter the data based on the selected property type
+    const filteredData = selectedType === "All" 
+      ? data.filter(d => d.TotalRooms !== 6.5) // Show all property types
+      : data.filter(d => d.Type === selectedType && d.TotalRooms !== 6.5); // Filter by selected type
 
     // Aggregate the data to calculate average prices
     const aggregatedData = d3.rollups(
       filteredData,
-      v => d3.mean(v, d => d.Price), // Calculate the average price
-      d => `${d.Type} - ${d.TotalRooms} Rooms` // Group by Type and TotalRooms
+      v => d3.mean(v, d => d.Price),
+      d => `${d.Type} - ${d.TotalRooms} Rooms`
     );
 
     // Convert aggregated data to an array of objects and sort by TotalRooms
     const formattedData = aggregatedData
       .map(([key, value]) => {
         const [type, roomsString] = key.split(" - ");
-        const totalRooms = parseInt(roomsString); // Extract and convert TotalRooms to a number
+        const totalRooms = parseInt(roomsString);
         return {
           key,
           type,
@@ -36,32 +38,32 @@ const BarChart = ({ data }) => {
           averagePrice: value
         };
       })
-      .sort((a, b) => a.totalRooms - b.totalRooms); // Sort in ascending order by TotalRooms
+      .sort((a, b) => a.totalRooms - b.totalRooms);
 
-    // Create a color scale for the property types
+    // Create a color scale with specific colors for each property type
     const colorScale = d3.scaleOrdinal()
-      .domain([...new Set(formattedData.map(d => d.type))]) // Unique property types
-      .range(["brown", "orange", "green"]); // Add more colors as needed
+      .domain(["House", "Unit", "Townhouse"])
+      .range(["#1f77b4", "#ff7f0e", "#2ca02c"]); // Colors for House, Unit, Townhouse
 
     // Create scales
     const xScale = d3.scaleBand()
       .domain(formattedData.map(d => d.key))
       .range([margin.left, width - margin.right])
-      .padding(0.1); // Add some padding between bars
+      .padding(0.1);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(formattedData, d => d.averagePrice)]).nice() // Extend domain to the max average price
+      .domain([0, d3.max(formattedData, d => d.averagePrice)]).nice()
       .range([height - margin.bottom, margin.top]);
 
     // Create and append axes
     const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale).tickFormat(d => `$${(d / 1000).toFixed(1)}k`); // Format prices in thousands
+    const yAxis = d3.axisLeft(yScale).tickFormat(d => `$${(d / 1000).toFixed(1)}k`);
 
     svg.append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(xAxis)
       .selectAll("text")
-      .attr("transform", "rotate(45)") // Rotate x-axis labels for better readability
+      .attr("transform", "rotate(45)")
       .style("text-anchor", "start");
 
     svg.append("g")
@@ -86,7 +88,7 @@ const BarChart = ({ data }) => {
       .style("padding", "5px")
       .style("border-radius", "5px")
       .style("pointer-events", "none")
-      .style("color", "black"); // Tooltip text color
+      .style("color", "black");
 
     // Append bars to the SVG
     svg.selectAll("rect")
@@ -97,9 +99,8 @@ const BarChart = ({ data }) => {
       .attr("y", d => yScale(d.averagePrice))
       .attr("width", xScale.bandwidth())
       .attr("height", d => height - margin.bottom - yScale(d.averagePrice))
-      .attr("fill", d => colorScale(d.type)) // Color code based on property type
+      .attr("fill", d => colorScale(d.type)) // Use specific colors based on property type
       .on("mouseover", (event, d) => {
-        // Show and update the tooltip on hover
         tooltip
           .style("left", `${event.pageX + 10}px`)
           .style("top", `${event.pageY + 10}px`)
@@ -111,19 +112,61 @@ const BarChart = ({ data }) => {
           `);
       })
       .on("mousemove", (event) => {
-        // Update tooltip position as the mouse moves
         tooltip
           .style("left", `${event.pageX + 10}px`)
           .style("top", `${event.pageY + 10}px`);
       })
       .on("mouseout", () => {
-        // Hide the tooltip when the mouse leaves
         tooltip.style("opacity", 0);
       });
 
-  }, [data]);
+  }, [data, selectedType]);
 
-  return <svg ref={svgRef} width={1000} height={600}></svg>;
+  return (
+    <div>
+      {/* Radio Buttons for Filtering */}
+      <div className="filter-controls" style={{ marginBottom: '20px' }}>
+        <label>
+          <input
+            type="radio"
+            value="All"
+            checked={selectedType === "All"}
+            onChange={(e) => setSelectedType(e.target.value)}
+          />
+          All
+        </label>
+        <label style={{ marginLeft: '10px' }}>
+          <input
+            type="radio"
+            value="House"
+            checked={selectedType === "House"}
+            onChange={(e) => setSelectedType(e.target.value)}
+          />
+          House
+        </label>
+        <label style={{ marginLeft: '10px' }}>
+          <input
+            type="radio"
+            value="Unit"
+            checked={selectedType === "Unit"}
+            onChange={(e) => setSelectedType(e.target.value)}
+          />
+          Unit
+        </label>
+        <label style={{ marginLeft: '10px' }}>
+          <input
+            type="radio"
+            value="Townhouse"
+            checked={selectedType === "Townhouse"}
+            onChange={(e) => setSelectedType(e.target.value)}
+          />
+          Townhouse
+        </label>
+      </div>
+
+      <svg ref={svgRef} width={1000} height={600}></svg>
+    </div>
+  );
 };
 
 export default BarChart;

@@ -123,14 +123,10 @@ export const Testimonials = () => {
   return (
     <div className="container mx-auto px-8 md:px-16 py-16">
       <div className="text-center">
-        <div className="text-xl font-semibold text-gray-800">Testimonials</div>
         <h2 className="text-3xl font-bold mt-4 mb-2">What our users say</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Hear from our satisfied users about how our platform has transformed their real estate decisions.
-        </p>
       </div>
-      <div className="flex justify-center gap-6 mt-10 overflow-hidden max-h-[738px] [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]">
-        <TestimonialsColumn testimonials={firstColumn} duration={12} />
+      <div className="flex flex-col md:flex-row justify-center gap-6 mt-10 overflow-hidden max-h-[738px] [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]">
+        <TestimonialsColumn testimonials={firstColumn} duration={12} className="block md:hidden" />
         <TestimonialsColumn testimonials={secondColumn} duration={15} className="hidden md:block" />
         <TestimonialsColumn testimonials={thirdColumn} duration={18} className="hidden lg:block" />
       </div>

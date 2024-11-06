@@ -1,17 +1,16 @@
-import React from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/navigation";
-
 
 const ProductFeature: React.FC = () => {
   const controls = useAnimation();
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
 
   React.useEffect(() => {
     if (inView) {
-      controls.start('visible');
+      controls.start("visible");
     }
   }, [controls, inView]);
 
@@ -48,25 +47,38 @@ const ProductFeature: React.FC = () => {
           everything you need to either buy, sell, rent, or invest.
         </p>
         <button
-        className="mt-6 px-8 py-3 text-md font-semibold text-[#005a70] border-[#005a70] bg-white rounded-full hover:bg-[#003e4e] transition-colors"
-        onClick={() => router.push("/about")} // Navigate to /product on click
+          className="mt-6 px-8 py-3 text-md font-semibold text-[#005a70] border-[#005a70] bg-white rounded-full hover:bg-[#003e4e] transition-colors"
+          onClick={() => router.push("/product")}
         >
           Find out more
         </button>
-        
       </motion.div>
 
       <motion.div
-        className="w-full md:w-1/2"
+        className="w-full md:w-1/2 flex justify-center relative"
         initial="hidden"
         animate={controls}
         variants={imageVariants}
       >
-        <img
-          src="/path/to/your/image.jpg"
-          alt="Product Example"
-          className="rounded-lg shadow-lg"
-        />
+        {/* Overlapping Images */}
+        <div className="relative w-full h-full">
+          <img
+            src="/linechart.png"
+            alt="Product Image 1"
+            className="rounded-lg shadow-lg absolute top-[-350px] left-0 transform rotate-[-5deg] max-w-[90%] md:max-w-[75%] h-auto"
+          />
+          <img
+            src="/barchart.png"
+            alt="Product Image 2"
+            className="rounded-lg shadow-lg absolute top-[-200px] left-12 transform rotate-[3deg] max-w-[90%] md:max-w-[75%] h-auto"
+          />
+          <img
+            src="/scatterplot.png"
+            alt="Product Image 3"
+            className="rounded-lg shadow-lg absolute top-[-100px] left-24 transform rotate-[-2deg] max-w-[90%] md:max-w-[75%] h-auto"
+          />
+        </div>
+
       </motion.div>
     </div>
   );
