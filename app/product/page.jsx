@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import Papa from "papaparse";
 import { ValidateForm } from "@/utils/utils";
+import dynamic from 'next/dynamic';
 
 // Components
 import InputField from "@/components/input/InputField";
