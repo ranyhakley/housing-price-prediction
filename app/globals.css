@@ -69,3 +69,7 @@ button:active {
 h1, h2, h3, h4, h5, h6 {
   color: #005a70; /* Text Primary */
 }
+
+.card{
+  @apply p-10 max-w-xs w-full border border-[#222222]/10 rounded-3xl shadow-[0_7px_14px_#EAEAEA];
+}

@@ -125,7 +125,7 @@ export const Testimonials = () => {
       <div className="text-center">
         <h2 className="text-3xl font-bold mt-4 mb-2">What our users say</h2>
       </div>
-      <div className="flex flex-col md:flex-row justify-center gap-6 mt-10 overflow-hidden max-h-[738px] [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]">
+      <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[738px] overflow-hidden">
         <TestimonialsColumn testimonials={firstColumn} duration={12} className="block md:hidden" />
         <TestimonialsColumn testimonials={secondColumn} duration={15} className="hidden md:block" />
         <TestimonialsColumn testimonials={thirdColumn} duration={18} className="hidden lg:block" />
