@@ -1,3 +1,5 @@
+"use client"
+
 // PropertyTypeSelector.tsx
 import React, { ChangeEvent } from 'react';
 

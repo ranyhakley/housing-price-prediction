@@ -1,3 +1,4 @@
+"use client"
 
 import avatar1 from "@/assets/avatar-1.png";
 import avatar2 from "@/assets/avatar-2.png";

@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from "next/navigation"; // Use the App Router's useRouter
