@@ -87,10 +87,10 @@ const TestimonialsColumn = (props: {className?: string; testimonials: typeof tes
       repeatType: 'loop',
     }}
     >
-      {[...new Array(2)].fill(0).map((_)=>(
-        <React.Fragment>
-            {props.testimonials.map(({ text, imageSrc, name, username}) =>(
-              <div className="card">
+      {[...new Array(2)].fill(0).map((_, index) => (
+  <React.Fragment key={index}>
+            {props.testimonials.map(({ text, imageSrc, name, username}, idx) =>(
+              <div className="card" key={idx}>
                 <div>
                   {text}
                 </div>
