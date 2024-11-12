@@ -1,4 +1,4 @@
-"use client";
+
 import avatar1 from "@/assets/avatar-1.png";
 import avatar2 from "@/assets/avatar-2.png";
 import avatar3 from "@/assets/avatar-3.png";
@@ -87,8 +87,8 @@ const TestimonialsColumn = (props: {className?: string; testimonials: typeof tes
       repeatType: 'loop',
     }}
     >
-      {[...new Array(2)].fill(0).map((_, index) => (
-  <React.Fragment key={index}>
+      {[...new Array(2)].fill(0).map((_, index)=>(
+        <React.Fragment key={index}>
             {props.testimonials.map(({ text, imageSrc, name, username}, idx) =>(
               <div className="card" key={idx}>
                 <div>
