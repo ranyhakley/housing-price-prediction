@@ -6,16 +6,17 @@ import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import Papa from "papaparse";
 import { ValidateForm } from "@/utils/utils";
+import dynamic from 'next/dynamic';
 
 // Components
 import InputField from "@/components/input/InputField";
 import SliderMap from "@/components/input/SliderMap";
 import PropertyTypeSelector from "@/components/input/PropertyTypeSelector";
 import ErrorMessage from "@/components/input/ErrorMessage";
-import ScatterPlot from "@/components/visualization/ScatterPlot";
-import BarChart from "@/components/visualization/BarChart";
-import LineChart from "@/components/visualization/LineChart";
-
+// Dynamically load components with client-side rendering only
+const ScatterPlot = dynamic(() => import('@/components/visualization/ScatterPlot'), { ssr: false });
+const BarChart = dynamic(() => import('@/components/visualization/BarChart'), { ssr: false });
+const LineChart = dynamic(() => import('@/components/visualization/LineChart'), { ssr: false });
 
 // Merged Component: ProductPage with Form and Visualizations
 const ProductPage = () => {
@@ -70,23 +71,25 @@ const ProductPage = () => {
   // Function to handle form submission and make a prediction request
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const validationError = ValidateForm(formData, selectedType);
     if (validationError) {
       setError(validationError);
       return;
     }
-
+  
     setLoading(true);
     setError(null);
-
+  
     try {
-      const response = await axios.post("http://localhost:8000/predict", formData);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || ""}/predict`, formData);
       setPredictions(response.data);
       setIsPredictionMade(true);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(`Server Error: ${err.response.data.message}`);
+      } else if (err.request) {
+        setError("Network error. Please check your internet connection or try again later.");
       } else {
         setError("Error while fetching prediction. Please try again.");
       }
