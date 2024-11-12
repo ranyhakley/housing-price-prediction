@@ -6,16 +6,16 @@ import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 import Papa from "papaparse";
 import { ValidateForm } from "@/utils/utils";
-import dynamic from 'next/dynamic';
 
 // Components
 import InputField from "@/components/input/InputField";
 import SliderMap from "@/components/input/SliderMap";
 import PropertyTypeSelector from "@/components/input/PropertyTypeSelector";
 import ErrorMessage from "@/components/input/ErrorMessage";
-const ScatterPlot = dynamic(() => import("@/components/visualization/ScatterPlot"), { ssr: false });
-const BarChart = dynamic(() => import("@/components/visualization/BarChart"), { ssr: false });
-const LineChart = dynamic(() => import("@/components/visualization/LineChart"), { ssr: false });
+import ScatterPlot from "@/components/visualization/ScatterPlot";
+import BarChart from "@/components/visualization/BarChart";
+import LineChart from "@/components/visualization/LineChart";
+
 
 // Merged Component: ProductPage with Form and Visualizations
 const ProductPage = () => {

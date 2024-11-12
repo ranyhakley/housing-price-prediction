@@ -6,6 +6,7 @@ import SmoothScrolling from "@/components/SmoothScrolling";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+
 export const metadata: Metadata = {
   title: "Housing Price Prediction",
   description: "Written by Rany",
