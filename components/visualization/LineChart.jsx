@@ -31,10 +31,10 @@ const LineChart = ({ data, selectedPostcode }) => {
     const postcodeData = [];
     filteredData.forEach(row => {
       Object.keys(row.priceFluctuations).forEach(yearPeriod => {
-        const [startYear, endYear] = yearPeriod.split("to").map(Number);
+        const [endYear] = yearPeriod.split("to").map(Number);
         postcodeData.push({
           year: new Date(endYear, 0, 1), // Use the end year for plotting
-          fluctuation: row.priceFluctuations[yearPeriod] // Fluctuation value
+          fluctuation: row.priceFluctuations[yearPeriod], // Fluctuation value
         });
       });
     });
